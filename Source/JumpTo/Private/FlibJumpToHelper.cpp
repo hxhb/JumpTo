@@ -30,7 +30,7 @@ void UFlibJumpToHelper::J2(const TArray<FString>& Args)
 		FContentBrowserModule& ContentBrowserModule = FModuleManager::Get().LoadModuleChecked<FContentBrowserModule>(TEXT("ContentBrowser"));
 		UAssetManager& AssetManager = UAssetManager::Get();
 		FString JumpTo = Args[0];
-
+		FPaths::NormalizeFilename(JumpTo);
 		EJumpType Type = EJumpType::DIR;
 
 		TArray<FString> OutRegStrings;
