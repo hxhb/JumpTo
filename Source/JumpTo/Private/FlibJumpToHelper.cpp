@@ -9,9 +9,9 @@
 #include "Engine/AssetManager.h"
 #include "Kismet/KismetStringLibrary.h"
 
-FAutoConsoleCommand ReattachMaterialInstancesCmd(
+static FAutoConsoleCommand J2Cmd(
 	TEXT("j2"),
-	TEXT("jump to directory or open a asset."),
+	TEXT("jump to directory or asset."),
 	FConsoleCommandWithArgsDelegate::CreateStatic(&UFlibJumpToHelper::J2)
 	);
 
@@ -92,6 +92,8 @@ FString UFlibJumpToHelper::LongPackageNameToPackagePath(const FString& InPackage
 
 FAssetData UFlibJumpToHelper::GetAssetDataByLongPackageName(FName LongPackageNames)
 {
+	FString LongPackageNameStr = LongPackageNames.ToString();
+	
 	UAssetManager& AssetManager = UAssetManager::Get();
 	FAssetData AssetDataForPath;
 	FSoftObjectPath PackageObjectPath = LongPackageNameToPackagePath(LongPackageNames.ToString());
@@ -103,11 +105,7 @@ bool UFlibJumpToHelper::IsMatchRegExp(const FString& Str, const FString& RegExp,
 {
 	FRegexPattern Pattern(RegExp);
 	FRegexMatcher PattenMatcher(Pattern,Str);
-	struct FRegexMatchResult
-	{
-		int32 Begin;
-		int32 End;
-	};
+	struct FRegexMatchResult{ int32 Begin,End; };
 	TArray<FRegexMatchResult> Results;
 	while(PattenMatcher.FindNext())
 	{
