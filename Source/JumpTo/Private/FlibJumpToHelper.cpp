@@ -5,7 +5,7 @@
 
 #include "ContentBrowserModule.h"
 #include "IContentBrowserSingleton.h"
-#include "Regex.h"
+#include "Internationalization/Regex.h"
 #include "Engine/AssetManager.h"
 #include "Kismet/KismetStringLibrary.h"
 
