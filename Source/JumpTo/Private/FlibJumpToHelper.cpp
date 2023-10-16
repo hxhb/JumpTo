@@ -19,8 +19,8 @@ static FAutoConsoleCommand J2Cmd(
 
 enum EJumpType
 {
-	DIR,
-	ASSET_PATH
+	J2DIR,
+	J2ASSET
 };
 
 void UFlibJumpToHelper::J2(const TArray<FString>& Args)
@@ -31,14 +31,14 @@ void UFlibJumpToHelper::J2(const TArray<FString>& Args)
 		UAssetManager& AssetManager = UAssetManager::Get();
 		FString JumpTo = Args[0];
 		FPaths::NormalizeFilename(JumpTo);
-		EJumpType Type = EJumpType::DIR;
+		EJumpType Type = EJumpType::J2DIR;
 
 		TArray<FString> OutRegStrings;
 		if(FPackageName::DoesPackageExist(JumpTo) ||
 			IsMatchRegExp(JumpTo,REF_REGEX_TEXT,OutRegStrings) && OutRegStrings.Num()
 			)
 		{
-			Type = EJumpType::ASSET_PATH;
+			Type = EJumpType::J2ASSET;
 			if(OutRegStrings.Num())
 			{
 				JumpTo = OutRegStrings[0];
@@ -49,7 +49,7 @@ void UFlibJumpToHelper::J2(const TArray<FString>& Args)
 
 		switch(Type)
 		{
-			case DIR:
+			case J2DIR:
 				{
 					FString Dir;
 					FPackageName::TryConvertLongPackageNameToFilename(JumpTo,Dir,"");
@@ -60,7 +60,7 @@ void UFlibJumpToHelper::J2(const TArray<FString>& Args)
 					}
 					break;
 				}
-		case ASSET_PATH:
+		case J2ASSET:
 				{
 					FAssetData AssetData = GetAssetDataByLongPackageName(*JumpTo);
 					if(AssetData.IsValid())
